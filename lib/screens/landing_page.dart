@@ -3,37 +3,37 @@ import 'package:flutter/material.dart';
 import 'package:task_manager/screens/home_page.dart';
 import 'package:task_manager/screens/sign_in_page.dart';
 
-class LandingPage extends StatefulWidget {
-  const LandingPage({Key? key}) : super(key: key);
+import '../services/authentication.dart';
 
-  @override
-  _LandingPageState createState() => _LandingPageState();
-}
-
-class _LandingPageState extends State<LandingPage> {
-  User? _user;
-
-  @override
-  void initState() {
-    super.initState();
-    _updateUser(FirebaseAuth.instance.currentUser);
-  }
-
-  void _updateUser(User? user) {
-    setState(() {
-      _user = user;
-    });
-  }
+class LandingPage extends StatelessWidget {
+  final AuthAbstract auth;
+  const LandingPage({
+    Key? key,
+    required this.auth,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (_user == null) {
-      return SignInPage(
-        anomSignIn: _updateUser,
-      );
-    }
-    return HomePage(
-      anomSignOut: () => _updateUser(null),
+    return StreamBuilder<User?>(
+      stream: auth.authState(),
+      builder: (_, snap) {
+        if (snap.connectionState == ConnectionState.active) {
+          final User? userData = snap.data;
+          if (userData == null) {
+            return SignInPage(
+              auth: auth,
+            );
+          }
+          return HomePage(
+            auth: auth,
+          );
+        }
+        return const Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      },
     );
   }
 }

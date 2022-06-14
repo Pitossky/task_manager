@@ -1,17 +1,16 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../services/authentication.dart';
 
 class HomePage extends StatelessWidget {
-  final VoidCallback anomSignOut;
+  final AuthAbstract auth;
   const HomePage({
     Key? key,
-    required this.anomSignOut,
+    required this.auth,
   }) : super(key: key);
 
   void _signOutAnom() async {
     try {
-      await FirebaseAuth.instance.signOut();
-      anomSignOut();
+      await auth.anomSignOut();
     } catch (e) {
       print(e.toString());
     }

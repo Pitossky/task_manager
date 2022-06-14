@@ -3,11 +3,17 @@ import 'package:flutter/material.dart';
 import '../widgets/exports.dart';
 
 class SignInColumn extends StatelessWidget {
-  final VoidCallback buttonFnc;
+  final VoidCallback anonButton;
+  final VoidCallback googleButton;
+  final VoidCallback facebookButton;
+  final VoidCallback emailNav;
 
   const SignInColumn({
     Key? key,
-    required this.buttonFnc,
+    required this.anonButton,
+    required this.googleButton,
+    required this.facebookButton,
+    required this.emailNav,
   }) : super(key: key);
 
   @override
@@ -33,7 +39,7 @@ class SignInColumn extends StatelessWidget {
               buttonTextColor: Colors.black,
               buttonColor: Colors.white,
               buttonText: 'Sign in with Google',
-              buttonAction: () {},
+              buttonAction: googleButton,
             ),
             const SizedBox(height: 10),
             SignInButton(
@@ -42,7 +48,7 @@ class SignInColumn extends StatelessWidget {
               buttonTextColor: Colors.white,
               buttonColor: const Color(0xFF334D92),
               buttonText: 'Sign in with Facebook',
-              buttonAction: () {},
+              buttonAction: facebookButton,
             ),
             const SizedBox(height: 10),
             SignInButton(
@@ -50,14 +56,14 @@ class SignInColumn extends StatelessWidget {
               buttonTextColor: Colors.white,
               buttonColor: Colors.blueGrey[500],
               buttonText: 'Sign in with Email',
-              buttonAction: () {},
+              buttonAction: emailNav,
             ),
             const SizedBox(height: 30),
             SignInButton(
               buttonTextColor: Colors.white,
               buttonColor: Colors.blueGrey[700],
               buttonText: 'Sign in Anonymously',
-              buttonAction: buttonFnc,
+              buttonAction: anonButton,
             ),
           ],
         ),

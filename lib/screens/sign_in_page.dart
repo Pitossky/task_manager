@@ -1,21 +1,47 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:task_manager/screens/email_screen.dart';
+import 'package:task_manager/services/authentication.dart';
 import '../widgets/exports.dart';
 
 class SignInPage extends StatelessWidget {
-  final void Function(User?) anomSignIn;
+  final AuthAbstract auth;
+
   const SignInPage({
     Key? key,
-    required this.anomSignIn,
+    required this.auth,
   }) : super(key: key);
 
-  void _anonymous() async {
+  Future<void> _anonymous() async {
     try {
-      final anomUser = await FirebaseAuth.instance.signInAnonymously();
-      anomSignIn(anomUser.user);
+      await auth.anomSignIn();
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  Future<void> _googleSignIn() async {
+    try {
+      await auth.googleSignIn();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> _facebookSignIn() async {
+    try {
+      await auth.facebookSignIn();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  void _emailScreenNav(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        fullscreenDialog: true,
+        builder: (_) => EmailScreen(auth: auth),
+      ),
+    );
   }
 
   @override
@@ -27,7 +53,10 @@ class SignInPage extends StatelessWidget {
         elevation: 0,
       ),
       body: SignInColumn(
-        buttonFnc: _anonymous,
+        anonButton: _anonymous,
+        googleButton: _googleSignIn,
+        facebookButton: _facebookSignIn,
+        emailNav: () => _emailScreenNav(context),
       ),
     );
   }
