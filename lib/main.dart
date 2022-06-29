@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:task_manager/screens/landing_page.dart';
 import 'package:task_manager/services/authentication.dart';
 
@@ -14,13 +15,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
-      ),
-      home: LandingPage(
-        auth: Authentication(),
+    return Provider<AuthAbstract>(
+      create: (context) => Authentication(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blueGrey,
+        ),
+        home: const LandingPage(),
       ),
     );
   }

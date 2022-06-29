@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../widgets/exports.dart';
 
@@ -7,6 +6,7 @@ class SignInColumn extends StatelessWidget {
   final VoidCallback googleButton;
   final VoidCallback facebookButton;
   final VoidCallback emailNav;
+  final bool? loadState;
 
   const SignInColumn({
     Key? key,
@@ -14,6 +14,7 @@ class SignInColumn extends StatelessWidget {
     required this.googleButton,
     required this.facebookButton,
     required this.emailNav,
+    required this.loadState,
   }) : super(key: key);
 
   @override
@@ -25,13 +26,9 @@ class SignInColumn extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              'Sign In',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-              ),
+            SizedBox(
+              height: 50,
+                child: _header(loadState!),
             ),
             const SizedBox(height: 40),
             SignInButton(
@@ -39,7 +36,7 @@ class SignInColumn extends StatelessWidget {
               buttonTextColor: Colors.black,
               buttonColor: Colors.white,
               buttonText: 'Sign in with Google',
-              buttonAction: googleButton,
+              buttonAction: loadState! ? null : googleButton,
             ),
             const SizedBox(height: 10),
             SignInButton(
@@ -48,7 +45,7 @@ class SignInColumn extends StatelessWidget {
               buttonTextColor: Colors.white,
               buttonColor: const Color(0xFF334D92),
               buttonText: 'Sign in with Facebook',
-              buttonAction: facebookButton,
+              buttonAction: loadState! ? null : facebookButton,
             ),
             const SizedBox(height: 10),
             SignInButton(
@@ -56,17 +53,33 @@ class SignInColumn extends StatelessWidget {
               buttonTextColor: Colors.white,
               buttonColor: Colors.blueGrey[500],
               buttonText: 'Sign in with Email',
-              buttonAction: emailNav,
+              buttonAction: loadState! ? null : emailNav,
             ),
             const SizedBox(height: 30),
             SignInButton(
               buttonTextColor: Colors.white,
               buttonColor: Colors.blueGrey[700],
               buttonText: 'Sign in Anonymously',
-              buttonAction: anonButton,
+              buttonAction: loadState! ? null : anonButton,
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _header(bool loadState) {
+    if(loadState){
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+    return const Text(
+      'Sign In',
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: 30,
+        fontWeight: FontWeight.bold,
       ),
     );
   }

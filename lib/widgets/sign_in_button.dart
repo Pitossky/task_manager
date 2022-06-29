@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class SignInButton extends StatelessWidget {
   final String buttonText;
-  final VoidCallback buttonAction;
+  final VoidCallback? buttonAction;
   final Color? buttonColor;
   final Color buttonTextColor;
   final Widget? buttonImage;
@@ -23,6 +23,7 @@ class SignInButton extends StatelessWidget {
     return SizedBox(
       height: 50.0,
       child: RaisedButton(
+        disabledColor: buttonColor,
         color: buttonColor,
         onPressed: buttonAction,
         shape: const RoundedRectangleBorder(

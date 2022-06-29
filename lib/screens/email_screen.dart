@@ -1,15 +1,15 @@
+//import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:task_manager/services/validator.dart';
-
+import '../model/email_model.dart';
 import '../services/authentication.dart';
-
-enum EmailForm { signIn, register }
+import '../widgets/exception_alert.dart';
 
 class EmailScreen extends StatefulWidget with EmailValidator {
-  final AuthAbstract auth;
   EmailScreen({
     Key? key,
-    required this.auth,
   }) : super(key: key);
 
   @override
@@ -28,27 +28,42 @@ class _EmailScreenState extends State<EmailScreen> {
   bool _formSubmit = false;
   bool _formLoading = false;
 
-  void _submitRaisedButton() async {
+  @override
+  void dispose() {
+   // print('dispose called');
+    _emailController.dispose();
+    _passwordController.dispose();
+    _emailFocus.dispose();
+    _passwordFocus.dispose();
+    super.dispose();
+  }
+
+  Future<void> _submitRaisedButton() async {
     setState(() {
       _formSubmit = true;
       _formLoading = true;
     });
     try {
       //await Future.delayed(const Duration(seconds: 3));
+      final auth = Provider.of<AuthAbstract>(context, listen: false);
       if (_formType == EmailForm.signIn) {
-        await widget.auth.emailSignIn(
+        await auth.emailSignIn(
           _email,
           _password,
         );
       } else {
-        await widget.auth.emailCreate(
+        await auth.emailCreate(
           _email,
           _password,
         );
       }
       Navigator.of(context).pop();
-    } catch (error) {
-      print(error.toString());
+    } on FirebaseAuthException catch (error) {
+      errorAlert(
+        context,
+        errorTitle: 'Sign in failed',
+        errorMsg: error,
+      );
     } finally {
       setState(() {
         _formLoading = false;
@@ -57,8 +72,8 @@ class _EmailScreenState extends State<EmailScreen> {
   }
 
   void _emailEdit() {
-    final newFocus = widget.emailValidator.validForm(_email)
-    ? _passwordFocus : _emailFocus;
+    final newFocus =
+        widget.emailValidator.validForm(_email) ? _passwordFocus : _emailFocus;
     FocusScope.of(context).requestFocus(newFocus);
   }
 
@@ -85,7 +100,8 @@ class _EmailScreenState extends State<EmailScreen> {
         : 'Have an account? Sign In';
 
     bool submit = widget.emailValidator.validForm(_email) &&
-        widget.emailValidator.validForm(_password) && !_formLoading;
+        widget.emailValidator.validForm(_password) &&
+        !_formLoading;
 
     bool validEmail = _formSubmit && !widget.emailValidator.validForm(_email);
     bool validPass = _formSubmit && !widget.emailValidator.validForm(_password);

@@ -1,32 +1,27 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:task_manager/screens/home_page.dart';
 import 'package:task_manager/screens/sign_in_page.dart';
-
-import '../services/authentication.dart';
+import 'package:task_manager/services/authentication.dart';
 
 class LandingPage extends StatelessWidget {
-  final AuthAbstract auth;
   const LandingPage({
     Key? key,
-    required this.auth,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final auth = Provider.of<AuthAbstract>(context, listen: false);
     return StreamBuilder<User?>(
       stream: auth.authState(),
       builder: (_, snap) {
         if (snap.connectionState == ConnectionState.active) {
           final User? userData = snap.data;
           if (userData == null) {
-            return SignInPage(
-              auth: auth,
-            );
+            return SignInPage.createSignInBloc(context);
           }
-          return HomePage(
-            auth: auth,
-          );
+          return const HomePage();
         }
         return const Scaffold(
           body: Center(
