@@ -14,7 +14,7 @@ class FirestoreService {
           .collection("users")
           .doc(uid)
           .collection("entries")
-          .doc(DateTime.now().toString());
+          .doc(dbData["taskId"]);
       print('$dbPath: $dbData');
       await reference.set(dbData);
     } else {
