@@ -39,6 +39,8 @@ dependencies:
   google_sign_in:
   flutter_login_facebook:
   provider:
+  cloud_firestore:
+  intl:
 
 
 dev_dependencies:

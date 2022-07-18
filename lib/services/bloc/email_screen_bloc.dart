@@ -3,12 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:task_manager/services/bloc/email_bloc.dart';
-import '../model/email_model.dart';
-import '../services/authentication.dart';
-import '../widgets/exception_alert.dart';
+import '../../model/email_model.dart';
+import '../authentication.dart';
+import '../../widgets/exception_alert.dart';
 
 class EmailScreenBloc extends StatefulWidget {
-  final EmailBloc emailBloc;
+  final EmailModelBloc emailBloc;
 
   EmailScreenBloc({
     Key? key,
@@ -17,9 +17,9 @@ class EmailScreenBloc extends StatefulWidget {
 
   static Widget create(BuildContext context) {
     final auth = Provider.of<AuthAbstract>(context, listen: false);
-    return Provider<EmailBloc>(
-      create: (_) => EmailBloc(auth: auth),
-      child: Consumer<EmailBloc>(
+    return Provider<EmailModelBloc>(
+      create: (_) => EmailModelBloc(auth: auth),
+      child: Consumer<EmailModelBloc>(
         builder: (_, bloc, __) => EmailScreenBloc(emailBloc: bloc),
       ),
       dispose: (_, bk) => bk.dispose(),

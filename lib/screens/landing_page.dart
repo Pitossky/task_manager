@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:task_manager/screens/home_page.dart';
 import 'package:task_manager/screens/sign_in_page.dart';
 import 'package:task_manager/services/authentication.dart';
+import 'package:task_manager/services/database_class.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({
@@ -21,7 +22,12 @@ class LandingPage extends StatelessWidget {
           if (userData == null) {
             return SignInPage.createSignInBloc(context);
           }
-          return const HomePage();
+          return Provider<DatabaseClass>(
+            create: (_) => AppDatabase(
+              dbUserId: userData.uid,
+            ),
+            child: const HomePage(),
+          );
         }
         return const Scaffold(
           body: Center(

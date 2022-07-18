@@ -2,9 +2,9 @@ import 'dart:async';
 import 'package:task_manager/model/email_model.dart';
 import '../authentication.dart';
 
-class EmailBloc {
+class EmailModelBloc {
   final AuthAbstract auth;
-  EmailBloc({required this.auth});
+  EmailModelBloc({required this.auth});
 
   final StreamController<EmailModel> _emailStreamController =
       StreamController<EmailModel>();

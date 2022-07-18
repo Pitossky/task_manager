@@ -1,28 +1,19 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:task_manager/services/authentication.dart';
 
 class SignInBloc {
   final AuthAbstract auth;
-  SignInBloc({required this.auth});
-
-  final StreamController<bool> _signInStateController =
-      StreamController<bool>();
-  Stream<bool> get signInStream => _signInStateController.stream;
-
-  void dispose() {
-    _signInStateController.close();
-  }
-
-  void _setSignInState(bool signInState) =>
-      _signInStateController.add(signInState);
+  final ValueNotifier<bool> signState;
+  SignInBloc({required this.auth, required this.signState});
 
   Future<User?> _signIn(Future<User?> Function() signInMethod) async {
     try {
-      _setSignInState(true);
+      signState.value = true;
       return await signInMethod();
     } catch (error) {
-      _setSignInState(false);
+      signState.value = false;
       rethrow;
     }
   }
