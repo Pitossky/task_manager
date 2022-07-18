@@ -1,6 +1,4 @@
-
 class EntryModel {
-
   String entryId;
   String taskId;
   DateTime start;

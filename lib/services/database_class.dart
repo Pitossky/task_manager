@@ -35,6 +35,8 @@ class AppDatabase implements DatabaseClass {
           dbUserId,
           taskModel.taskId,
         ),
+      uid:  dbUserId,
+
         dbData: taskModel.convertToMap(),
       );
 
@@ -76,6 +78,7 @@ class AppDatabase implements DatabaseClass {
           dbUserId,
           entry.entryId,
         ),
+        uid: dbUserId,
         dbData: entry.toMap(),
       );
 
