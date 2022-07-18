@@ -6,11 +6,22 @@ class FirestoreService {
 
   Future<void> setData({
     required String dbPath,
+    required String uid,
     required Map<String, dynamic> dbData,
   }) async {
-    final reference = FirebaseFirestore.instance.doc(dbPath);
-    print('$dbPath: $dbData');
-    await reference.set(dbData);
+    if (dbPath.contains("users/$uid/entries")) {
+      final reference = FirebaseFirestore.instance
+          .collection("users")
+          .doc(uid)
+          .collection("entries")
+          .doc(DateTime.now().toString());
+      print('$dbPath: $dbData');
+      await reference.set(dbData);
+    } else {
+      final reference = FirebaseFirestore.instance.doc(dbPath);
+      print('$dbPath: $dbData');
+      await reference.set(dbData);
+    }
   }
 
   Future<void> deleteData({required String docPath}) async {
