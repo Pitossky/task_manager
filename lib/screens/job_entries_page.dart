@@ -56,38 +56,47 @@ class JobEntriesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 2.0,
-        title: Text(job.taskName),
-        actions: <Widget>[
-          FlatButton(
-            child: const Text(
-              'Edit',
-              style: TextStyle(
-                fontSize: 18.0,
-                color: Colors.white,
-              ),
-            ),
-            onPressed: () => NewTask.showNewPage(
-              context,
-              task: job,
-              taskDB: database,
-            ),
-          ),
-        ],
-      ),
-      body: _buildContent(context, job),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () => EntryPage.show(
-          context: context,
-          database: database,
-          task: job,
-          entry: null,
+    return StreamBuilder<TaskModel>(
+        stream: database.editTaskStream(
+          taskId: job.taskId,
         ),
-      ),
-    );
+        builder: (context, snapshot) {
+          final task = snapshot.data;
+          final taskName = task?.taskName ?? '';
+          return Scaffold(
+            appBar: AppBar(
+              elevation: 2.0,
+              title: Text(taskName),
+              centerTitle: true,
+              actions: <Widget>[
+                IconButton(
+                  icon: const Icon(
+                    Icons.edit,
+                    color: Colors.white,
+                  ),
+                  onPressed: () => NewTask.showNewPage(
+                    context,
+                    task: job,
+                    taskDB: database,
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(
+                    Icons.add,
+                    color: Colors.white,
+                  ),
+                  onPressed: () => EntryPage.show(
+                    context: context,
+                    database: database,
+                    task: job,
+                    entry: null,
+                  ),
+                ),
+              ],
+            ),
+            body: _buildContent(context, job),
+          );
+        });
   }
 
   Widget _buildContent(
@@ -102,7 +111,7 @@ class JobEntriesPage extends StatelessWidget {
           taskBuilder: (context, entry) {
             return DismissibleEntryListItem(
               key: Key('entry-${entry.entryId}'),
-              entry: entry,
+              entryDismiss: entry,
               job: job,
               onDismissed: () => _deleteEntry(
                 context,

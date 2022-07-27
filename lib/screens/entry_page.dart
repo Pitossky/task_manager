@@ -24,7 +24,10 @@ class EntryPage extends StatefulWidget {
     required TaskModel task,
     required EntryModel? entry,
   }) async {
-    await Navigator.of(context).push(
+    await Navigator.of(
+      context,
+      rootNavigator: true,
+    ).push(
       MaterialPageRoute(
         builder: (context) => EntryPage(
           database: database,
@@ -72,7 +75,7 @@ class _EntryPageState extends State<EntryPage> {
     );
     _endTime = TimeOfDay.fromDateTime(end);
 
-    _comment = widget.entry?.comment ?? '';
+    _comment = widget.entry?.comment;
   }
 
   EntryModel _entryFromState() {
@@ -125,7 +128,7 @@ class _EntryPageState extends State<EntryPage> {
         actions: <Widget>[
           FlatButton(
             child: Text(
-              widget.entry == null ? 'Update' : 'Create',
+              _comment != null ? 'Update' : 'Create',
               style: const TextStyle(
                 fontSize: 18.0,
                 color: Colors.white,

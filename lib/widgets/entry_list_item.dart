@@ -9,7 +9,7 @@ class EntryListItem extends StatelessWidget {
     required this.entry,
     required this.job,
     required this.onTap,
-  });
+  }) : super(key: key);
 
   final EntryModel entry;
   final TaskModel job;
@@ -20,13 +20,19 @@ class EntryListItem extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0,),
+        margin: const EdgeInsets.symmetric(
+          horizontal: 16.0,
+          vertical: 8.0,
+        ),
         child: Row(
           children: <Widget>[
             Expanded(
               child: _buildContents(context),
             ),
-            const Icon(Icons.chevron_right, color: Colors.grey,),
+            const Icon(
+              Icons.chevron_right,
+              color: Colors.grey,
+            ),
           ],
         ),
       ),
@@ -47,21 +53,39 @@ class EntryListItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Row(children: <Widget>[
-          Text(dayOfWeek, style: const TextStyle(fontSize: 18.0, color: Colors.grey)),
+          Text(
+            dayOfWeek,
+            style: const TextStyle(
+              fontSize: 18.0,
+              color: Colors.grey,
+            ),
+          ),
           const SizedBox(width: 15.0),
-          Text(startDate, style: const TextStyle(fontSize: 18.0)),
+          Text(
+            startDate,
+            style: const TextStyle(fontSize: 18.0),
+          ),
           if (job.ratePerHour > 0.0) ...<Widget>[
             Expanded(child: Container()),
             Text(
               payFormatted,
-              style: TextStyle(fontSize: 16.0, color: Colors.green[700]),
+              style: TextStyle(
+                fontSize: 16.0,
+                color: Colors.green[700],
+              ),
             ),
           ],
         ]),
         Row(children: <Widget>[
-          Text('$startTime - $endTime', style: TextStyle(fontSize: 16.0)),
+          Text(
+            '$startTime - $endTime',
+            style: const TextStyle(fontSize: 16.0),
+          ),
           Expanded(child: Container()),
-          Text(durationFormatted, style: TextStyle(fontSize: 16.0)),
+          Text(
+            durationFormatted,
+            style: const TextStyle(fontSize: 16.0),
+          ),
         ]),
         if (entry.comment!.isNotEmpty)
           Text(
@@ -78,14 +102,14 @@ class EntryListItem extends StatelessWidget {
 class DismissibleEntryListItem extends StatelessWidget {
   const DismissibleEntryListItem({
     this.key,
-    this.entry,
+    this.entryDismiss,
     this.job,
     this.onDismissed,
     this.onTap,
   });
 
   final Key? key;
-  final EntryModel? entry;
+  final EntryModel? entryDismiss;
   final TaskModel? job;
   final VoidCallback? onDismissed;
   final VoidCallback? onTap;
@@ -98,7 +122,7 @@ class DismissibleEntryListItem extends StatelessWidget {
       direction: DismissDirection.endToStart,
       onDismissed: (direction) => onDismissed!(),
       child: EntryListItem(
-        entry: entry!,
+        entry: entryDismiss!,
         job: job!,
         onTap: onTap!,
       ),

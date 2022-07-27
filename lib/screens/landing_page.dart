@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:task_manager/screens/home_page.dart';
 import 'package:task_manager/screens/sign_in_page.dart';
+import 'package:task_manager/screens/tab_page.dart';
 import 'package:task_manager/services/authentication.dart';
 import 'package:task_manager/services/database_class.dart';
 
@@ -26,7 +27,7 @@ class LandingPage extends StatelessWidget {
             create: (_) => AppDatabase(
               dbUserId: userData.uid,
             ),
-            child: const HomePage(),
+            child: const TabPage(),
           );
         }
         return const Scaffold(

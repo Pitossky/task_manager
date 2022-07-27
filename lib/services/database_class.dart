@@ -9,7 +9,7 @@ abstract class DatabaseClass {
   Future<void> assignTask(TaskModel taskModel);
   Stream<List<TaskModel>> readTasks();
   Future<void> deleteTask(TaskModel task);
-
+  Stream<TaskModel> editTaskStream({required String taskId});
   Future<void> setEntry(EntryModel entry);
   Future<void> deleteEntry(EntryModel entry);
   Stream<List<EntryModel>> readEntries({
@@ -35,8 +35,7 @@ class AppDatabase implements DatabaseClass {
           dbUserId,
           taskModel.taskId,
         ),
-      uid:  dbUserId,
-
+        uid: dbUserId,
         dbData: taskModel.convertToMap(),
       );
 
@@ -68,6 +67,21 @@ class AppDatabase implements DatabaseClass {
       ),
     );
   }
+
+  @override
+  Stream<TaskModel> editTaskStream({
+    required String taskId,
+  }) =>
+      _storeService.documentStream(
+        path: APIPath.taskDBPath(
+          dbUserId,
+          taskId,
+        ),
+        builder: (dbData, docId) => TaskModel.fromMap(
+          dbData!,
+          docId,
+        ),
+      );
 
   @override
   Future<void> setEntry(

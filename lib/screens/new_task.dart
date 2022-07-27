@@ -18,7 +18,10 @@ class NewTask extends StatefulWidget {
 
   static Future<void> showNewPage(BuildContext context,
       {DatabaseClass? taskDB, TaskModel? task}) async {
-    Navigator.of(context).push(
+    Navigator.of(
+      context,
+      rootNavigator: true,
+    ).push(
       MaterialPageRoute(
         builder: (_) => NewTask(
           database: taskDB!,

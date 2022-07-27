@@ -41,6 +41,7 @@ dependencies:
   provider:
   cloud_firestore:
   intl:
+  rxdart:
 
 
 dev_dependencies:

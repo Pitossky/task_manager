@@ -4,40 +4,15 @@ import 'package:provider/provider.dart';
 import 'package:task_manager/model/task_model.dart';
 import 'package:task_manager/screens/new_task.dart';
 import 'package:task_manager/services/database_class.dart';
-import 'package:task_manager/widgets/display_alert_dialog.dart';
-//import 'package:task_manager/widgets/empty_task.dart';
 import 'package:task_manager/widgets/exception_alert.dart';
 import 'package:task_manager/widgets/task_builder.dart';
 import 'package:task_manager/widgets/task_tile.dart';
-import '../services/authentication.dart';
 import 'job_entries_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({
     Key? key,
   }) : super(key: key);
-
-  void _signOutAnom(BuildContext context) async {
-    try {
-      final auth = Provider.of<AuthAbstract>(context, listen: false);
-      await auth.anomSignOut();
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
-  Future<void> _confirmSignOut(BuildContext context) async {
-    final signOutReq = await displayAlert(
-      context,
-      alertTitle: 'Log Out',
-      alertContent: 'Are you sure?',
-      alertAction: 'Yes',
-      cancelAction: 'Cancel',
-    );
-    if (signOutReq == true) {
-      _signOutAnom(context);
-    }
-  }
 
   Widget _buildTaskCnts(BuildContext context) {
     final db = Provider.of<DatabaseClass>(context, listen: false);
@@ -100,27 +75,23 @@ class HomePage extends StatelessWidget {
         elevation: 0,
         title: const Text('Tasks'),
         actions: [
-          FlatButton(
-            onPressed: () => _confirmSignOut(context),
-            child: const Text(
-              'Log out',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
+          IconButton(
+            onPressed: () => NewTask.showNewPage(
+              context,
+              task: null,
+              taskDB: Provider.of<DatabaseClass>(
+                context,
+                listen: false,
               ),
+            ),
+            icon: const Icon(
+              Icons.add,
+              color: Colors.white,
             ),
           ),
         ],
       ),
       body: _buildTaskCnts(context),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => NewTask.showNewPage(
-          context,
-          task: null,
-          taskDB: Provider.of<DatabaseClass>(context, listen: false),
-        ),
-        child: const Icon(Icons.add),
-      ),
     );
   }
 }

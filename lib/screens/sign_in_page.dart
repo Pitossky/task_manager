@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:task_manager/screens/email_screen.dart';
 import 'package:task_manager/services/authentication.dart';
-import 'package:task_manager/services/bloc/signi_in_bloc.dart';
+import 'package:task_manager/services/bloc/sign_in_bloc.dart';
 import 'package:task_manager/widgets/exception_alert.dart';
 import '../widgets/exports.dart';
 import '../services/bloc/email_screen_bloc.dart';

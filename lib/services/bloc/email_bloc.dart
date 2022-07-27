@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:rxdart/rxdart.dart';
 import 'package:task_manager/model/email_model.dart';
 import '../authentication.dart';
 
@@ -6,12 +7,14 @@ class EmailModelBloc {
   final AuthAbstract auth;
   EmailModelBloc({required this.auth});
 
-  final StreamController<EmailModel> _emailStreamController =
-      StreamController<EmailModel>();
-  Stream<EmailModel> get emailStream => _emailStreamController.stream;
-  EmailModel _emailModel = EmailModel();
+  final _modelSubject = BehaviorSubject<EmailModel>.seeded(
+    EmailModel(),
+  );
 
-  void dispose() => _emailStreamController.close();
+  Stream<EmailModel> get emailStream => _modelSubject.stream;
+  EmailModel get _emailModel => _modelSubject.value;
+
+  void dispose() => _modelSubject.close();
 
   void emailBlocUpdate({
     String email = '',
@@ -20,14 +23,13 @@ class EmailModelBloc {
     bool loadState = false,
     bool submitState = false,
   }) {
-    _emailModel = _emailModel.copyWith(
+    _modelSubject.value = _emailModel.copyWith(
       email: email,
       password: password,
       emailForm: emailForm,
       loadState: loadState,
       submitState: submitState,
     );
-    _emailStreamController.add(_emailModel);
   }
 
   void toggleForm() {
