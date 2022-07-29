@@ -5,7 +5,10 @@ abstract class StringValidator {
 
 class ValidString implements StringValidator {
   @override
-  bool validForm(String value) {
+  bool validForm(String? value) {
+    if (value == null) {
+      return false;
+    }
     return value.isNotEmpty;
   }
 }

@@ -7,9 +7,9 @@ import '../model/entry_model.dart';
 
 abstract class DatabaseClass {
   Future<void> assignTask(TaskModel taskModel);
-  Stream<List<TaskModel>> readTasks();
+  Stream<List<TaskModel?>> readTasks();
   Future<void> deleteTask(TaskModel task);
-  Stream<TaskModel> editTaskStream({required String taskId});
+  Stream<TaskModel?> editTaskStream({required String taskId});
   Future<void> setEntry(EntryModel entry);
   Future<void> deleteEntry(EntryModel entry);
   Stream<List<EntryModel>> readEntries({
@@ -40,7 +40,7 @@ class AppDatabase implements DatabaseClass {
       );
 
   @override
-  Stream<List<TaskModel>> readTasks() => _storeService.collectionStream(
+  Stream<List<TaskModel?>> readTasks() => _storeService.collectionStream(
         path: APIPath.tasksPath(
           dbUserId,
         ),
@@ -69,7 +69,7 @@ class AppDatabase implements DatabaseClass {
   }
 
   @override
-  Stream<TaskModel> editTaskStream({
+  Stream<TaskModel?> editTaskStream({
     required String taskId,
   }) =>
       _storeService.documentStream(

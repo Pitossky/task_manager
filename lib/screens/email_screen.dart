@@ -122,6 +122,7 @@ class _EmailScreenState extends State<EmailScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   TextField(
+                    key: const Key('email'),
                     focusNode: _emailFocus,
                     controller: _emailController,
                     decoration: InputDecoration(
@@ -136,6 +137,7 @@ class _EmailScreenState extends State<EmailScreen> {
                   ),
                   const SizedBox(height: 15),
                   TextField(
+                    key: const Key('password'),
                     focusNode: _passwordFocus,
                     controller: _passwordController,
                     obscureText: true,

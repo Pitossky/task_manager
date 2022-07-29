@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
 class SignInButton extends StatelessWidget {
-  final String buttonText;
+  final String? buttonText;
   final VoidCallback? buttonAction;
   final Color? buttonColor;
-  final Color buttonTextColor;
+  final Color? buttonTextColor;
   final Widget? buttonImage;
   final Color? containerColor;
 
   const SignInButton({
     Key? key,
-    required this.buttonText,
-    required this.buttonAction,
-    required this.buttonColor,
-    required this.buttonTextColor,
+    this.buttonText = '',
+    this.buttonAction,
+    this.buttonColor,
+    this.buttonTextColor,
     this.buttonImage,
     this.containerColor,
   }) : super(key: key);
@@ -42,7 +42,7 @@ class SignInButton extends StatelessWidget {
             ),
             const SizedBox(width: 20),
             Text(
-              buttonText,
+              buttonText!,
               // textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 20,

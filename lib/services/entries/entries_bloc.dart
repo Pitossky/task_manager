@@ -21,16 +21,16 @@ class EntriesBloc {
 
   static List<TaskEntryModel> _entriesJobsCombiner(
     List<EntryModel> entries,
-    List<TaskModel> jobs,
+    List<TaskModel?> jobs,
   ) {
     return entries.map((entry) {
       final task = jobs.firstWhere(
-        (task) => task.taskId == entry.entryId,
+        (task) => task!.taskId == entry.entryId,
         //orElse: () => null,
       );
       return TaskEntryModel(
         entry,
-        task,
+        task!,
       );
     }).toList();
   }

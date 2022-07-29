@@ -16,13 +16,13 @@ class HomePage extends StatelessWidget {
 
   Widget _buildTaskCnts(BuildContext context) {
     final db = Provider.of<DatabaseClass>(context, listen: false);
-    return StreamBuilder<List<TaskModel>>(
+    return StreamBuilder<List<TaskModel?>>(
       stream: db.readTasks(),
       builder: (context, snap) {
-        return ListTaskBuilder<TaskModel>(
+        return ListTaskBuilder<TaskModel?>(
           snapshot: snap,
           taskBuilder: (context, taskModel) => Dismissible(
-            key: Key('task-${taskModel.taskId}'),
+            key: Key('task-${taskModel!.taskId}'),
             direction: DismissDirection.endToStart,
             background: Container(
               //alignment: Alignment.centerRight,

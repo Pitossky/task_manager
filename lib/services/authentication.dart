@@ -9,7 +9,7 @@ abstract class AuthAbstract {
   Stream<User?> authState();
   Future<User?> googleSignIn();
   Future<User?> facebookSignIn();
-  Future<User?> emailSignIn(String email, String password);
+  Future<User?>? emailSignIn(String? email, String? password);
   Future<User?> emailCreate(String email, String password);
 }
 
@@ -86,11 +86,11 @@ class Authentication implements AuthAbstract {
   }
 
   @override
-  Future<User?> emailSignIn(String email, String password) async {
+  Future<User?>? emailSignIn(String? email, String? password) async {
     final user = await _firebase.signInWithCredential(
       EmailAuthProvider.credential(
-        email: email,
-        password: password,
+        email: email!,
+        password: password!,
       ),
     );
     return user.user;

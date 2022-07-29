@@ -56,7 +56,7 @@ class JobEntriesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<TaskModel>(
+    return StreamBuilder<TaskModel?>(
         stream: database.editTaskStream(
           taskId: job.taskId,
         ),

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 class TaskModel {
   final String taskId;
   final String taskName;
@@ -9,16 +11,18 @@ class TaskModel {
     required this.ratePerHour,
   });
 
-  factory TaskModel.fromMap(
-    Map<String, dynamic> dbData,
+  static TaskModel? fromMap(
+    Map<String, dynamic>? dbData,
     String docId,
   ) {
-    /*
     if (dbData == null) {
       return null;
     }
-    */
-    final String taskName = dbData['taskName'];
+
+    final String? taskName = dbData['taskName'];
+    if (taskName == null) {
+      return null;
+    }
     final int ratePerHour = dbData['ratePerHour'];
     return TaskModel(
       taskName: taskName,
@@ -33,4 +37,29 @@ class TaskModel {
       'ratePerHour': ratePerHour,
     };
   }
+
+  @override
+  int get hashCode => hashValues(
+        taskId,
+        taskName,
+        ratePerHour,
+      );
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (runtimeType != other.runtimeType) {
+      return false;
+    }
+    final TaskModel otherTask = other as TaskModel;
+    return taskId == otherTask.taskId &&
+        taskName == otherTask.taskName &&
+        ratePerHour == otherTask.ratePerHour;
+  }
+
+  @override
+  String toString() =>
+      'taskId: $taskId, taskName: $taskName, ratePerHour: $ratePerHour';
 }

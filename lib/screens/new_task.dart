@@ -114,7 +114,7 @@ class _NewTaskState extends State<NewTask> {
     if (_saveForm()) {
       try {
         final taskCollection = await widget.database.readTasks().first;
-        final jobNames = taskCollection.map((e) => e.taskName).toList();
+        final jobNames = taskCollection.map((e) => e!.taskName).toList();
         if (widget.tasks != null) {
           jobNames.remove(widget.tasks!.taskName);
         }
